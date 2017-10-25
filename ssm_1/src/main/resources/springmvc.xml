@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+   <!-- 该配置在  DispatcherServlet.properties 里有默认的配置，如果要显示调用的话，一般是修改其中的配置-->
+   <!-- 如果显示调用，要把注解的方法也要显示调用，不然会被覆盖掉原有的properties文件，注解的方式就会使用不了 -->
+   <!-- <bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"></bean> -->
+
+   <!-- 加上斜杠！ -->
+    <bean id="/userController" class="com.ssm.controller.UserController"></bean>
+  
+   <!-- 文件上传的处理器 -->
+   <bean  id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="5000000" />
+        <property name="maxInMemorySize" value="4096"/>
+		<property name="defaultEncoding" value="utf-8" />
+      
+   </bean>
+  
+  
+   <!-- 交给子容器去管理，即使spring框架已经扫描了com.ssm下的所有包，但是不会去扫描子容器的controller对象 -->
+   <context:component-scan base-package="com.ssm.controller"></context:component-scan>
+
+   <!-- 视图层路径的配置,视图解析器 -->
+   <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+      <property name="prefix" value="/WEB-INF/views/"></property>
+      <property name="suffix" value=".jsp"></property>
+   </bean>
+  
+   <!-- 静态资源处理器 -->
+   <mvc:default-servlet-handler/>
+   <!-- 只放行该包下面的静态资源 -->
+   <!-- <mvc:resources location="/resources" mapping="/resources/**" />  --> 
+  
+  
+   <!-- 驱动加载所需要的注解配置，因为被静态资源处理器覆盖了，需要手动加载驱动,显示加载  注解处理对象 -->
+   <mvc:annotation-driven></mvc:annotation-driven>
+   
+   <mvc:interceptors>
+      <mvc:interceptor>
+           <!-- 拦截所有资源 -->
+          <mvc:mapping path="/*"/>
+          <bean class="com.ssm.interceptor.LoginInterceptor"></bean>
+      </mvc:interceptor>
+   </mvc:interceptors>
+   
+   <!-- 异常统一处理 -->
+   <bean class="com.ssm.exception.MyException"></bean>
+   
+</beans>

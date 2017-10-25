@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.dao.IUserDao">
+  
+  <!-- 开启二级缓存 -->
+  <cache></cache>
+
+  <sql id="sqlFirst">
+     user_id,user_name as "nameYy"
+  </sql>
+  
+  <resultMap id="newUserMap" type="User">
+    <id property="userId" column="user_id"/>
+    <result property="userName" column="nameYy"/>
+  </resultMap>
+  
+  <!-- id 是抽象类的方法名   resultType对应着你要框架帮你完成自定义封装的model对象 -->
+<!--   <select id="selectUser" resultMap="newUserMap">
+      select <include refid="sqlFirst"></include> from tb_user 
+  </select> -->
+  
+  <select id="selectUserById" resultType="com.ssm.model.User">
+      select * from tb_user where user_id = #{id111}
+  </select>
+
+  <!-- 默认是 useCache="true"  改为false则是不使用缓存  但是如果配置文件那边配置了<setting name="cacheEnabled" value="false"/>，则这里显示true也不行-->
+  <select id="selectUserByParam" resultType="com.ssm.model.User" useCache="true">
+      select * from tb_user where user_id = #{userId}
+  </select>
+  
+  <delete id="deleteUserById">
+     delete from tb_user where user_id = #{userId}
+  </delete>
+  
+  <!-- 数据库支持自动生成主键,可以设置 useGeneratedKeys=”true”，然后再把 keyProperty 设置到目标属性上就OK了 -->
+  <insert id="insertUser"  useGeneratedKeys="true" keyProperty="userId">
+     insert into tb_user(user_id,user_name) values(#{userId},#{userName})
+  </insert>
+  
+  <!-- 数据库不支持自动生成主键，，MyBatis 有另外一种方法来生成主键-->
+  <insert id="insertUser2" >
+     <selectKey keyProperty="userId" resultType="int" order="BEFORE">
+       select max(user_id)+2 from tb_user 
+     </selectKey>
+     insert into tb_user(user_id,user_name) values(#{userId},#{userName})
+  </insert>
+  
+  <update id="updateUser">
+     update tb_user set user_name = #{userName} where user_id = #{userId}
+  </update>
+  
+
+  
+</mapper>

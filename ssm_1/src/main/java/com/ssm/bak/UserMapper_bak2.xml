@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.dao.IUserDao">
+  
+  <resultMap type="User" id="userMap">
+    <id property="userId" column="user_id"/>
+    <result property="userName" column="user_name"/>
+    <!-- <result property="role.roleId" column="role_id"/>
+    <result property="role.roleName" column="role_name"/> -->
+    
+    <!-- 方式一  -->
+    <!-- <association property="role" javaType="Role">
+      <result property="roleId" column="role_id"/>
+      <result property="roleName" column="role_name"/>
+    </association> -->
+    
+    <!-- 方式二 -->
+    <association property="role" column="role_id" javaType="Role" select="com.ssm.dao.IRoleDao.selectRoleById" fetchType="lazy"/>
+  </resultMap>
+     
+  <select id="selectUser" resultMap="userMap">
+    <!-- 方式一 -->
+    <!-- select u.*,r.role_name from tb_user u,tb_role r where u.role_id = r.role_id -->
+    
+    <!-- 方式二  -->
+    select * from tb_user
+  </select>
+  
+  <select id="selectUserByRoleId" resultType="User">
+      select * from tb_user where user_id = #{user_id}
+  </select>
+  
+  
+  <resultMap type="User" id="userMap2">
+    <id property="userId" column="user_id"/>
+    <result property="userName" column="user_name"/>
+    <!-- 方式一  -->
+   <!--  <collection property="roles" javaType="ArrayList" ofType="Role">
+        <id property="roleId" column="role_id"/>
+        <result property="roleName" column="role_name"/>
+    </collection>  -->
+    
+    <collection property="roles" javaType="ArrayList" ofType="Role" column="role_id"  select="com.ssm.dao.IRoleDao.selectRole4"/>
+  </resultMap>
+  
+  <select id="selectUser6" resultMap="userMap2">
+     <!-- 方式一  -->
+     <!-- select u.user_id,u.user_name,r.role_id,r.role_name from tb_user u,tb_role r,tb_user_role ur 
+     where u.user_id = ur.user_id and r.role_id = ur.role_id -->
+     
+     <!-- 方式二  -->
+     select u.user_id,u.user_name,ur.role_id from tb_user u,tb_user_role ur
+     where u.user_id = ur.user_id 
+     
+  </select>
+  
+</mapper>

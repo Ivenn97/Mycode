@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+	</head>
+	
+	<body>
+	<div align="center" style="height:100px;margin-top:50px">
+	          <input type="button" value="提交1" id="btn1"/>
+	          <input type="button" value="提交2" id="btn2"/>
+	          <input type="button" value="提交3" id="btn3"/>
+	          <input type="button" value="提交4" id="btn4"/>
+	    </div>		
+	</body>   
+	    <script type="text/javascript" src="js/jquery.min.js" ></script>
+	    <script type="text/javascript" src="js/bootstrap.min.js" ></script>    
+	 
+	 
+	 <script type="text/javascript">
+	   var json = {"userId":11,"userName":"111"};
+	 
+	    $(function(){
+	    	$("#btn1").click(function(){
+	    		$.ajax({
+	    			type:"post",
+	    			contentType:"application/json",
+	    			url:"json/jsonToUser",
+	    			data:' {"userId":11,"userName":"111"}',
+	    			success:function(data){
+	    				alert(data.userName);
+	    			}
+	    		});
+	    	});
+	    	
+	    	
+	    	
+	    	var json1 = {"userId":11,"userName":"111"};
+	    	var json2 = {"userId":22,"userName":"222"};
+	    	var a = [json1,json2];
+	    	$("#btn2").click(function(){
+	    		$.ajax({
+	    			type:"post",
+	    			contentType:"application/json",
+	    			url:"json/jsonToList",
+	    			data:JSON.stringify(a),
+	    			success:function(data){
+	    				alert(data.userName);
+	    			}
+	    		});
+	    	});
+	    	
+	    	
+	    	$("#btn3").click(function(){
+	    		$.ajax({
+	    			type:"post",
+	    			//contentType:"application/json",
+	    			url:"json/normalGson",
+	    			data:{
+	    				"json":JSON.stringify(a)
+	    				},
+	    			success:function(data){
+	    				//alert(data.userName);
+	    			}
+	    		});
+	    	});
+	    	
+	    	
+	    	
+	    	var json6  = {"company":"super","users":a};
+	    	
+	    	$("#btn4").click(function(){
+	    		$.ajax({
+	    			type:"post",
+	    			contentType:"application/json",
+	    			url:"json/jsonToUser2",
+	    			data:JSON.stringify(json6),
+	    			success:function(data){
+	    				//alert(data.userName);
+	    			}
+	    		});
+	    	});
+	    	
+	    })
+	    
+	 </script>
+</html>

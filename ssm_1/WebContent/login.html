@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+	</head>
+	<body>
+	<div style="width: 500px;margin-top: 100px;margin-left: 100px;">
+		   
+		<form method="post" action="user2/getannotation" > 
+			  <div class="form-group">
+			    <label for="username">账号名</label>
+			    <!-- list  -->
+			    <input type="text" class="form-control" id="username" placeholder="账号名" name="users[0].userName">
+			    <input type="text" class="form-control" id="username" placeholder="账号名" name="users[12].userName">
+			    
+			     <!-- set  -->
+			    <input type="text" class="form-control" id="username" placeholder="账号名" name="users2[0].userName">
+			    <input type="text" class="form-control" id="username" placeholder="账号名" name="users2[1].userName">
+			    
+			     <!-- map  -->
+			    <input type="text" class="form-control" id="username" placeholder="账号名" name="map['k'].userName">
+			    <input type="text" class="form-control" id="username" placeholder="账号名" name="map['k'].userId">
+			    
+			  </div>
+			  <div class="form-group">
+			    <label for="userpassword">密码</label>
+			    <input type="password" class="form-control" id="userpassword" placeholder="Password" name="userPassword">
+			  </div>
+			 
+			  <button type="submit" class="btn btn-default" id="btn" >提交</button>
+<!-- 			   <button type="submit" class="btn btn-default" id="btn" >提交</button> -->
+ 		</form> 
+	</div>				
+	</body>   
+	    <script type="text/javascript" src="js/jquery.min.js" ></script>
+	    <script type="text/javascript" src="js/bootstrap.min.js" ></script>    
+	 
+</html>

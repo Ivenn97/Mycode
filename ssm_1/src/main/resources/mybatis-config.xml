@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+  <settings>  
+     <!-- 使不使用二级缓存的开关 -->
+     <setting name="cacheEnabled" value="true"/>
+     <!-- 驼峰型和下划线型的转换 -->
+     <setting name="mapUnderscoreToCamelCase" value="true" />  
+     <!--当jar包有冲突的时候，Mybatis不知道使用哪个，所以要配置LOG4J2 -->
+     <setting name="logImpl" value="LOG4J2"/>
+  </settings>
+  
+ <!--<environments default="development">
+
+		<environment id="development">
+			
+			事务管理器 
+			 	MyBatis 中有两种类型的事务管理器:
+			 	1、JDBC – 这个配置就是直接使用了 JDBC 的提交和回滚设置，
+			 					它依赖于从数据源得到的连接来管理事务作用域。
+			 	2、MANAGED – 这个配置几乎没做什么。
+			 	
+			
+			<transactionManager type="JDBC"/>
+			数据源 
+				有三种内建的数据源类型（也就是 type=”[UNPOOLED|POOLED|JNDI]”）
+			
+			
+			<dataSource type="POOLED">
+				数据库的驱动、url、用户名和密码
+				<property name="jdbcUrl" value="${jdbcUrl}"></property>
+                <property name="password" value="${dbPassword}"></property>
+		        <property name="user" value="${dbUser}"></property>
+		        <property name="driverClass" value="${dbDriver}"></property>
+			</dataSource>
+		</environment>
+	</environments>
+
+	映射器（mappers）
+		
+		告诉 MyBatis 到哪里去找映射文件
+	
+	<mappers>
+		<mapper resource="com/mybatis/dao/impl/UserMapper.xml" /> 
+		<mapper resource="com/mybatis/dao/impl/EmptMapper.xml" /> 
+		<mapper resource="com/mybatis/dao/impl/PersonMapper.xml" /> 
+		<mapper resource="com/mybatis/dao/impl/ProjectMapper.xml" /> 
+		<mapper resource="com/mybatis/dao/impl/RoleMapper.xml" /> 
+	</mappers> -->
+
+  
+  <typeAliases>
+   <typeAlias type="com.ssm.model.User" alias="User"/>
+   <typeAlias type="com.ssm.model.Role" alias="Role"/>
+  </typeAliases>
+ 
+   <plugins>
+    <plugin interceptor="com.ssm.interceptor.PageInterceptor"></plugin>
+  </plugins>
+ 
+  
+</configuration>
+
+
+
+
