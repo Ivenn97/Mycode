@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+ 
+   <context:component-scan base-package="com.ssh"></context:component-scan>
+   
+   <!-- 链接数据源 -->
+   <context:property-placeholder location="classpath:dataSource.properties"/>
+   <bean id="comboPooledDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+      <property name="jdbcUrl" value="${jdbcUrl}"></property>
+      <property name="password" value="${dbPassword}"></property>
+      <property name="user" value="${dbUser}"></property>
+      <property name="driverClass" value="${dbDriver}"></property>
+   </bean>
+   
+   
+   <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+      <property name="dataSource" ref="comboPooledDataSource"></property>
+      <property name="hibernateProperties">
+        <props>
+             <prop key="hibernate.show_sql">true</prop>
+             <prop key="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</prop>
+        </props>
+      </property>
+      <property name="packagesToScan" value="com.ssh.model"></property>
+   </bean>
+   
+   
+   <!--同时兼容hibernate5 和jdbc事物管理 -->
+   <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+      <property name="sessionFactory" ref="sessionFactory"></property>
+   </bean> 
+   
+   <!-- 配置增删改查工具类，并注入数据源 -->
+   <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+      <property name="dataSource" ref="comboPooledDataSource"></property>
+   </bean>
+   
+   
+   <!-- spring提供对session包装工具类，该类有对象映射的功能  -->
+   <bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
+       <property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   
+   <!-- 开启自动代理aop -->
+   <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+   
+</beans>
