@@ -1,0 +1,29 @@
+<c3p0-config>
+  <default-config>
+  	<!-- mysql数据库的url地址 -->
+    <property name="jdbcUrl">jdbc:mysql://localhost:3306/finance</property>
+    <!-- mysql数据库的驱动 -->
+    <property name="driverClass">com.mysql.jdbc.Driver</property>
+	<!-- 数据库的用户名称 -->
+	<property name="user">root</property>
+	<!-- 数据库的用户的密码 -->
+	<property name="password">root</property>
+	<!-- 连接池保持的最小连接数 -->
+	<property name="initialPoolSize">3</property>
+	<!-- 链接池保持的最大连接数 -->
+	<property name="maxPoolSize">6</property>
+	<!-- 最大空闲时间,600秒内未使用则连接被丢弃。若为0则永不丢弃。默认为0  -->
+	<property name="maxIdleTime">600</property>
+  </default-config>
+
+<!--
+  <named-config name="dumbTestConfig">
+    <property name="maxStatements">200</property>
+    <property name="jdbcUrl">jdbc:test</property>
+    <user-overrides user="poop">
+      <property name="maxStatements">300</property>
+    </user-overrides>
+   </named-config>
+-->
+	
+</c3p0-config>
